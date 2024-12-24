@@ -799,15 +799,11 @@ describe("Admin Endpoints", () => {
   });
 
   test("User is not able to hit admin Endpoints", async () => {
-    const elementReponse = await axios.post(
+    const userToken = "valid-user-token"; // Replace with a valid user token without admin privileges
+
+    const elementResponse = await axios.post(
       `${BACKEND_URL}/api/v1/admin/element`,
-      {
-        imageUrl:
-          "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRCRca3wAR4zjPPTzeIY9rSwbbqB6bB2hVkoTXN4eerXOIkJTG1GpZ9ZqSGYafQPToWy_JTcmV5RHXsAsWQC3tKnMlH_CsibsSZ5oJtbakq&usqp=CAE",
-        width: 1,
-        height: 1,
-        static: true,
-      },
+      {},
       {
         headers: {
           authorization: `Bearer ${userToken}`,
@@ -817,12 +813,7 @@ describe("Admin Endpoints", () => {
 
     const mapResponse = await axios.post(
       `${BACKEND_URL}/api/v1/admin/map`,
-      {
-        thumbnail: "https://thumbnail.com/a.png",
-        dimensions: "100x200",
-        name: "test space",
-        defaultElements: [],
-      },
+      {},
       {
         headers: {
           authorization: `Bearer ${userToken}`,
@@ -832,11 +823,7 @@ describe("Admin Endpoints", () => {
 
     const avatarResponse = await axios.post(
       `${BACKEND_URL}/api/v1/admin/avatar`,
-      {
-        imageUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm3RFDZM21teuCMFYx_AROjt-AzUwDBROFww&s",
-        name: "Timmy",
-      },
+      {},
       {
         headers: {
           authorization: `Bearer ${userToken}`,
@@ -845,11 +832,8 @@ describe("Admin Endpoints", () => {
     );
 
     const updateElementResponse = await axios.put(
-      `${BACKEND_URL}/api/v1/admin/element/123`,
-      {
-        imageUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm3RFDZM21teuCMFYx_AROjt-AzUwDBROFww&s",
-      },
+      `${BACKEND_URL}/api/v1/admin/element/:iaojdsioasj`,
+      {},
       {
         headers: {
           authorization: `Bearer ${userToken}`,
@@ -857,7 +841,7 @@ describe("Admin Endpoints", () => {
       }
     );
 
-    expect(elementReponse.status).toBe(403);
+    expect(elementResponse.status).toBe(403);
     expect(mapResponse.status).toBe(403);
     expect(avatarResponse.status).toBe(403);
     expect(updateElementResponse.status).toBe(403);

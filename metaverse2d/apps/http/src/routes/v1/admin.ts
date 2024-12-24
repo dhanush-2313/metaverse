@@ -27,13 +27,13 @@ adminRouter.post("/element", adminMiddleware, async (req, res) => {
     })
 })
 
-adminRouter.post("/element/:elementId", adminMiddleware, async (req, res) => {
+adminRouter.put("/element/:elementId", adminMiddleware, async (req, res) => {
     const parsedData = UpdateElementSchema.safeParse(req.body)
     if (!parsedData.success) {
         res.status(403).json({ message: "Validation failed" })
         return
     }
-    client.element.update({
+    await client.element.update({
         where: {
             id: req.params.elementId
         },
