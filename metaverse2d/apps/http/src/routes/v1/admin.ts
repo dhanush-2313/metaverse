@@ -6,10 +6,10 @@ import { adminMiddleware } from "../../middleware/admin";
 export const adminRouter = Router();
 
 
-adminRouter.post("/element",adminMiddleware,async(req,res)=>{
+adminRouter.post("/element", adminMiddleware, async (req, res) => {
     const parsedData = CreateElementSchema.safeParse(req.body)
     if (!parsedData.success) {
-        res.status(400).json({message: "Validation failed"})
+        res.status(403).json({ message: "Validation failed" })
         return
     }
 
@@ -27,10 +27,10 @@ adminRouter.post("/element",adminMiddleware,async(req,res)=>{
     })
 })
 
-adminRouter.post("/element/:elementId",async(req,res)=>{
+adminRouter.post("/element/:elementId", adminMiddleware, async (req, res) => {
     const parsedData = UpdateElementSchema.safeParse(req.body)
     if (!parsedData.success) {
-        res.status(400).json({message: "Validation failed"})
+        res.status(403).json({ message: "Validation failed" })
         return
     }
     client.element.update({
@@ -41,13 +41,13 @@ adminRouter.post("/element/:elementId",async(req,res)=>{
             imageUrl: parsedData.data.imageUrl
         }
     })
-    res.json({message: "Element updated"})
+    res.status(200).json({ message: "Element updated" })
 })
 
-adminRouter.post("/avatar",async(req,res)=>{
+adminRouter.post("/avatar", adminMiddleware, async (req, res) => {
     const parsedData = CreateAvatarSchema.safeParse(req.body)
     if (!parsedData.success) {
-        res.status(400).json({message: "Validation failed"})
+        res.status(403).json({ message: "Validation failed" })
         return
     }
     const avatar = await client.avatar.create({
@@ -56,13 +56,13 @@ adminRouter.post("/avatar",async(req,res)=>{
             imageUrl: parsedData.data.imageUrl
         }
     })
-    res.json({avatarId: avatar.id})
+    res.json({ avatarId: avatar.id })
 })
 
-adminRouter.post("/map",async(req,res)=>{
+adminRouter.post("/map", adminMiddleware, async (req, res) => {
     const parsedData = CreateMapSchema.safeParse(req.body)
     if (!parsedData.success) {
-        res.status(400).json({message: "Validation failed"})
+        res.status(403).json({ message: "Validation failed" })
         return
     }
     const map = await client.map.create({

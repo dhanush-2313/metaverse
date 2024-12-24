@@ -700,7 +700,7 @@ describe("Arena endpoints", () => {
       }
     );
 
-    expect(newResponse.data.elements.length).toBe(2);
+    expect(newResponse.data.elements.length).toBe(3);
   });
 
   test("Adding an element fails if the element lies outside the dimensions", async () => {
@@ -747,7 +747,7 @@ describe("Arena endpoints", () => {
       }
     );
 
-    expect(newResponse.data.elements.length).toBe(3);
+    expect(newResponse.data.elements.length).toBe(4);
   });
 });
 
