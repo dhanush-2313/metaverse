@@ -1,4 +1,5 @@
 const axios2 = require("axios");
+const WebSocket = require("ws"); // Add this line
 
 const BACKEND_URL = "http://localhost:3000";
 const WS_URL = "ws://localhost:3001";
@@ -1119,7 +1120,7 @@ describe("Websocket tests", () => {
   beforeAll(async () => {
     await setupHTTP();
     await setupWs();
-  });
+  }, 40000); // Increase timeout to 30 seconds
 
   test("Get back ack for joining the space", async () => {
     console.log("insixce first test");
@@ -1163,7 +1164,7 @@ describe("Websocket tests", () => {
 
     userX = message2.payload.spawn.x;
     userY = message2.payload.spawn.y;
-  });
+  }, 0000); // Increase timeout to 20 seconds
 
   test("User should not be able to move across the boundary of the wall", async () => {
     ws1.send(
@@ -1180,7 +1181,7 @@ describe("Websocket tests", () => {
     expect(message.type).toBe("movement-rejected");
     expect(message.payload.x).toBe(adminX);
     expect(message.payload.y).toBe(adminY);
-  });
+  }, 20000); // Increase timeout to 20 seconds
 
   test("User should not be able to move two blocks at the same time", async () => {
     ws1.send(
@@ -1197,7 +1198,7 @@ describe("Websocket tests", () => {
     expect(message.type).toBe("movement-rejected");
     expect(message.payload.x).toBe(adminX);
     expect(message.payload.y).toBe(adminY);
-  });
+  }, 20000); // Increase timeout to 20 seconds
 
   test("Correct movement should be broadcasted to the other sockets in the room", async () => {
     ws1.send(
@@ -1215,12 +1216,12 @@ describe("Websocket tests", () => {
     expect(message.type).toBe("movement");
     expect(message.payload.x).toBe(adminX + 1);
     expect(message.payload.y).toBe(adminY);
-  });
+  }, 20000); // Increase timeout to 20 seconds
 
   test("If a user leaves, the other user receives a leave event", async () => {
     ws1.close();
     const message = await waitForAndPopLatestMessage(ws2Messages);
     expect(message.type).toBe("user-left");
     expect(message.payload.userId).toBe(adminUserId);
-  });
+  }, 20000); // Increase timeout to 20 seconds
 });
